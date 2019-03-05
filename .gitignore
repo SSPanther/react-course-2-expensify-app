@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 node_modules/
 public/bundle.js
 public/bundle.js.map
 public/styles.css
 public/styles.css.map
+=======
+node_modules
+>>>>>>> 94c5c2636156cb88acc43ecfc448170b5fe844dc
