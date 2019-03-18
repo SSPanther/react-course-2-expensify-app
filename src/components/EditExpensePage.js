@@ -2,16 +2,33 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
 import { startEditExpense, startRemoveExpense } from '../actions/expenses';
+import ConfirmationModal from './ConfirmationModal';
 
 export class EditExpensePage extends React.Component {
+  state = {
+    waitingForConfirmation: false
+  };
+
   onSubmit = (expense) => {
     this.props.startEditExpense(this.props.expense.id, expense);
     this.props.history.push('/');
   };
+
   onRemove = () => {
+    console.log('Setting wait to true');
+    this.setState(() => ({ waitingForConfirmation: true }));
+  };
+
+  handleNoConfirmation = () => {
+    this.setState(() => ({ waitingForConfirmation: false }));
+  }
+
+  handleYesConfirmation = () => {
     this.props.startRemoveExpense({ id: this.props.expense.id });
     this.props.history.push('/');
-  };
+    this.setState(() => ({ waitingForConfirmation: false }));
+  }
+
   render() {
     return (
       <div>
@@ -31,6 +48,13 @@ export class EditExpensePage extends React.Component {
           >
             Remove Expense
           </button>
+        </div>
+        <div>
+          <ConfirmationModal
+            isOpen={this.state.waitingForConfirmation}
+            handleNoConfirmation={this.handleNoConfirmation}
+            handleYesConfirmation={this.handleYesConfirmation}
+          />
         </div>
       </div>
     );
